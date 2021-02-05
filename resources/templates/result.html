@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="En">
+<head>
+    <title>Add result page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>New user successfully added!</h1>
+<br>
+<p th:text="'Fist name: ' + ${add.firstName}"></p>
+<p th:text="'Last name: ' + ${add.lastName}"></p>
+<a href="/add">Add new user</a>
+</body>
+</html>

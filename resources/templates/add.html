@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="En">
+<head>
+    <title>User add page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1 th:align="center">Add new user</h1>
+<form th:action="@{/add}" th:object="${addUser}" method="post">
+    <table th:align="center">
+        <tr>
+            <td>Last name: </td>
+            <td><input type="text" placeholder="Navalny" th:field="*{lastName}" /></td>
+            <td><p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p></td>
+        </tr>
+        <tr>
+            <td>First name: </td>
+            <td><input type="text" placeholder="Alexey" th:field="*{firstName}"  /></td>
+            <td><p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p></td>
+        </tr>
+        <tr>
+            <td>Patronymic name: </td>
+            <td><input type="text" placeholder="Anatolyevich"  th:field="*{patronymicName}" /></td>
+            <td><p th:if="${#fields.hasErrors('patronymicName')}" th:errors="*{patronymicName}"></p></td>
+        </tr>
+        <tr>
+            <td>Age: </td>
+            <td><input type="number" placeholder="44" th:field="*{age}" /></td>
+            <td><p th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p></td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><input type="text" placeholder="shtab@navalny.com" th:field="*{email}" /></td>
+            <td><p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p></td>
+        </tr>
+        <tr>
+            <td>Salary: </td>
+            <td><input type="text" placeholder="150000.0" th:field="*{salary}" /></td>
+            <td><p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></p></td>
+        </tr>
+        <tr>
+            <td>Work address: </td>
+            <td><input type="text" placeholder="FBK, Russia, Moscow" th:field="*{workAddress}" /></td>
+            <td><p th:if="${#fields.hasErrors('workAddress')}" th:errors="*{workAddress}"></p></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input th:align="center" type="submit" value="Add user" /></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+<br />
+<br />
+<form th:action="@{/upload}" method="post" enctype="multipart/form-data" th:align="center">
+    Or upload file with information of user <input type="file" name="file" accept=".txt">
+    <input type="submit" value="Upload selected file">
+</form>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="En">
+    <head>
+        <title>User search page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style type="text/css">
+            TABLE {
+                border-collapse: collapse;
+            }
+            TD, TH {
+                padding: 3px;
+                border: 1px solid black;
+            }
+            TH {
+                background: #b0e0e6; /* Цвет фона */
+            }
+        </style>
+    </head>
+    <body>
+        <h1 th:align="center">User search page</h1>
+        <form th:action="@{/search}" th:object="${usersList}" method="get">
+            <table th:align="center">
+                <tr>
+                    <td><h3>Last name</h3></td>
+                    <td><h3>First name</h3></td>
+                    <td><h3>Patronymic name</h3></td>
+                    <td><h3>Age</h3></td>
+                    <td><h3>Email</h3></td>
+                    <td><h3>Work address</h3></td>
+                    <td><h3>Salary</h3></td>
+                </tr>
+                <tr th:each="user: ${usersList}">
+                    <td th:text="${user.lastName}"/>
+                    <td th:text="${user.firstName}"/>
+                    <td th:text="${user.patronymicName}"/>
+                    <td th:text="${user.age}"/>
+                    <td th:text="${user.email}"/>
+                    <td th:text="${user.workAddress}"/>
+                    <td th:text="${user.salary}"/>
+                </tr>
+            </table>
+        </form>
+        <form th:action="@{/search}" th:object="${searchUser}" method="post">
+            <table th:align="center">
+                <tr>
+                    <td>First name: </td>
+                    <td><input type="text" placeholder="Alexey" th:field="*{firstName}" maxlength="50" minlength="2" required pattern="[A-ZА-я][A-zА-я]+[a-zа-я]$" /></td>
+                </tr>
+                <tr>
+                    <td>Last name: </td>
+                    <td><input type="text" placeholder="Navalny" th:field="*{lastName}" maxlength="50" minlength="2" required pattern="[A-ZА-я][A-zА-я]+[a-zа-я]$"/></td>
+                </tr>
+                <tr>
+                    <td><input th:align="center" type="submit" value="Find user" /></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+        <form th:action="@{/sentMessage}" th:object="${searchUser}" method="post">
+            <table th:align="center">
+                <tr>
+                    <td>Email: </td>
+                    <td><input type="text" placeholder="shtab@navalny.com" th:field="*{email}" required pattern="[a-z0-9\\.]{3,200}@[a-z0-9]{3,20}.?[a-z]{2,20}?"/></td>
+                </tr>
+                <tr>
+                    <td>Message: </td>
+                    <td><input type="text" placeholder="Your message ..." th:field="*{message}"/></td>
+                </tr>
+                <tr>
+                    <td><input th:align="center" type="submit" value="Sent message" /></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
