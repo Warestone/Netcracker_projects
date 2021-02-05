@@ -4,6 +4,7 @@ import com.warestone_company.NCprojects.java.spring.lab_1.ioFile.ReadFile;
 import com.warestone_company.NCprojects.java.spring.lab_1.ioFile.WriteFile;
 import com.warestone_company.NCprojects.java.spring.lab_1.model.AddUser;
 import com.warestone_company.NCprojects.java.spring.lab_1.model.FoundedUser;
+import com.warestone_company.NCprojects.java.spring.lab_1.model.RequestInfo;
 import com.warestone_company.NCprojects.java.spring.lab_1.model.SearchUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +36,7 @@ public class Lab1Controller {
     private boolean clearUser;
     private boolean clearSearchResults;
     private List<FoundedUser> foundedUsersList = new ArrayList<>();
+    private RequestInfo requestInfo = new RequestInfo();
 
     @GetMapping("/surprise")
     public String getSurprisePage() {
@@ -57,9 +61,14 @@ public class Lab1Controller {
 
     @GetMapping("/search")
     public String getSearchUserPage(Model model){
-        if (clearSearchResults) foundedUsersList.clear();
+        if (clearSearchResults)
+        {
+            foundedUsersList.clear();
+            requestInfo.clear();
+        }
         model.addAttribute("usersList", foundedUsersList);
         model.addAttribute("searchUser", new SearchUser());
+        model.addAttribute("requestInfo", requestInfo);
         logger.log(Level.INFO, "search.html has been called.");
         clearSearchResults = true;
         return "search";
@@ -94,7 +103,7 @@ public class Lab1Controller {
     }
 
     @PostMapping(value = "/search")
-    public RedirectView checkNameUserAndFindInUsers(SearchUser searchUser){
+    public RedirectView checkNameUserAndFindInUsers(SearchUser searchUser, HttpServletRequest request){
         ArrayList<String>allUsers = new ReadFile().readUsersFile(logger);
         if (allUsers == null){
             return new RedirectView("/userNotFound");
@@ -112,6 +121,8 @@ public class Lab1Controller {
         if (foundedUsersList.size()==0) return new RedirectView("/userNotFound");
         else{
             clearSearchResults = false;
+            requestInfo.setBrowser(request.getHeader("user-agent"));
+            requestInfo.setTime(new Date().toString());
             return new RedirectView("/search");
         }
     }
