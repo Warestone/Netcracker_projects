@@ -39,6 +39,10 @@
                 </tr>
             </table>
         </form>
+        <form th:action="@{/search}" th:object="${requestInfo}" method="get">
+            <h4 th:text="${requestInfo.browser}" th:align="center"/>
+            <h4 th:text="${requestInfo.time}" th:align="center"/>
+        </form>
         <form th:action="@{/search}" th:object="${searchUser}" method="post">
             <table th:align="center">
                 <tr>
